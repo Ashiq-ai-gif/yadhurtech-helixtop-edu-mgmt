@@ -14,6 +14,7 @@
     --border-radius: 10px;
     --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     --hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --transition-speed: 0.3s ease;
 }
 
 html {
@@ -36,7 +37,13 @@ body {
     background-color: var(--light-gray);
     display: flex;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll from layout shifts */
+}
+
+/* Main Layout */
+.main-wrapper {
+    display: flex;
+    width: 100%;
 }
 
 /* Sidebar */
@@ -52,7 +59,13 @@ body {
     top: 0;
     height: 100vh;
     overflow-y: auto;
-    transition: width 0.3s ease; /* For potential collapse */
+    transition: width var(--transition-speed), transform var(--transition-speed);
+    z-index: 1001; /* Ensure sidebar is above content */
+}
+
+.sidebar.collapsed {
+    width: 80px;
+    transform: translateX(-200px); /* Hide completely on collapse for mobile */
 }
 
 .sidebar .logo {
@@ -65,12 +78,25 @@ body {
 .sidebar .logo .icon {
     font-size: 3rem;
     margin-right: 1rem;
+    transition: margin-right var(--transition-speed);
+}
+
+.sidebar.collapsed .logo .icon {
+    margin-right: 0;
 }
 
 .sidebar .logo h2 {
     font-size: 2.8rem;
     font-weight: 700;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity var(--transition-speed);
+}
+
+.sidebar.collapsed .logo h2 {
+    opacity: 0;
+    width: 0;
 }
 
 .sidebar nav a {
@@ -82,7 +108,7 @@ body {
     padding: 1.2rem 1rem;
     margin-bottom: 1rem;
     border-radius: var(--border-radius);
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    transition: background-color var(--transition-speed), color var(--transition-speed), transform 0.2s ease;
 }
 
 .sidebar nav a:hover {
@@ -102,6 +128,22 @@ body {
 .sidebar nav a .icon {
     font-size: 2.2rem;
     margin-right: 1.5rem;
+    min-width: 2.2rem; /* Ensure icon doesn't shrink */
+}
+
+.sidebar.collapsed nav a .icon {
+    margin-right: 0;
+}
+
+.sidebar nav a span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity var(--transition-speed);
+}
+
+.sidebar.collapsed nav a span:last-child {
+    opacity: 0;
+    width: 0;
 }
 
 /* Main Content */
@@ -111,6 +153,7 @@ body {
     background-color: var(--white);
     position: relative;
     z-index: 1;
+    transition: margin-left var(--transition-speed); /* For sidebar toggle */
 }
 
 .main-header {
@@ -154,10 +197,26 @@ body {
     font-weight: 700;
 }
 
+.mobile-menu-toggle {
+    display: none; /* Hidden by default, shown on mobile */
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 2.5rem;
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 1002; /* Above sidebar */
+    box-shadow: var(--card-shadow);
+}
+
 /* Content Sections */
 .content-section {
     display: none;
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn var(--transition-speed) ease-out;
 }
 
 .content-section.active {
@@ -194,8 +253,8 @@ body {
 /* Dashboard Grid */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Slightly smaller min-width */
+    gap: 2.5rem;
     margin-bottom: 5rem;
 }
 
@@ -206,7 +265,25 @@ body {
     box-shadow: var(--card-shadow);
     text-align: center;
     border-bottom: 5px solid var(--primary-blue);
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.1); /* Subtle blue overlay */
+    transform: skewX(-30deg);
+    transition: all 0.4s ease-out;
+}
+
+.metric-card:hover::before {
+    transform: skewX(-30deg) translateX(200%);
 }
 
 .metric-card:hover {
@@ -218,6 +295,8 @@ body {
     font-size: 1.8rem;
     color: var(--dark-gray);
     margin-bottom: 1rem;
+    position: relative; /* Ensure text is above overlay */
+    z-index: 1;
 }
 
 .metric-card .metric-value {
@@ -225,12 +304,16 @@ body {
     font-weight: 700;
     color: var(--primary-blue);
     margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .metric-card .metric-growth {
     font-size: 1.4rem;
     color: var(--success-green);
     font-weight: 600;
+    position: relative;
+    z-index: 1;
 }
 
 .chart-placeholder {
@@ -246,6 +329,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: var(--card-shadow);
 }
 
 .chart-placeholder h3 {
@@ -260,6 +344,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 1rem;
 }
 
 .calendar-header h3 {
@@ -276,7 +362,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.6rem;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-speed);
 }
 
 .calendar-header button:hover {
@@ -286,7 +372,7 @@ body {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 1rem;
+    gap: 0.8rem; /* Slightly smaller gap */
     background-color: var(--white);
     padding: 2rem;
     border-radius: var(--border-radius);
@@ -312,6 +398,11 @@ body {
     gap: 0.5rem;
     position: relative;
     background-color: var(--light-gray);
+    transition: background-color var(--transition-speed);
+}
+
+.calendar-day:hover {
+    background-color: #e9ecef; /* Lighter on hover */
 }
 
 .calendar-day.inactive {
@@ -325,6 +416,9 @@ body {
     border-radius: 4px;
     color: var(--white);
     margin-top: 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .event.marketing {
@@ -357,7 +451,7 @@ body {
     cursor: pointer;
     font-size: 1.6rem;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-speed);
 }
 
 .new-event-btn:hover {
@@ -386,13 +480,26 @@ body {
     margin-bottom: 1rem;
 }
 
+.lead-capture-section .input-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
 .lead-capture-section input {
-    width: 80%;
+    flex: 1 1 300px; /* Flexible width */
+    max-width: 400px;
     padding: 1rem 1.5rem;
     border: 1px solid var(--medium-gray);
     border-radius: 5px;
     font-size: 1.6rem;
-    margin-right: 1rem;
+    transition: border-color var(--transition-speed);
+}
+
+.lead-capture-section input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
 }
 
 .lead-capture-section button {
@@ -403,7 +510,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.6rem;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-speed);
 }
 
 .lead-capture-section button:hover {
@@ -415,17 +522,20 @@ body {
     gap: 2rem;
     overflow-x: auto; /* Allow horizontal scrolling for many columns */
     padding-bottom: 1rem; /* Space for scrollbar */
+    scroll-snap-type: x mandatory; /* Smooth scrolling between columns */
+    -webkit-overflow-scrolling: touch;
 }
 
 .kanban-column {
-    flex: 0 0 300px; /* Fixed width columns, but can adjust */
+    flex: 0 0 300px; /* Fixed width columns for consistency */
     background-color: var(--light-gray);
     padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
-    min-height: 400px; /* Ensure columns have some height */
+    min-height: 400px;
     display: flex;
     flex-direction: column;
+    scroll-snap-align: start;
 }
 
 .kanban-column h3 {
@@ -434,6 +544,7 @@ body {
     margin-bottom: 2rem;
     text-align: center;
     position: relative;
+    white-space: nowrap;
 }
 
 .kanban-column h3::after {
@@ -454,9 +565,10 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 1.5rem;
-    cursor: grab; /* Indicates draggable */
-    transition: all 0.2s ease;
+    cursor: grab;
+    transition: all var(--transition-speed);
     border-left: 5px solid var(--primary-blue);
+    position: relative;
 }
 
 .kanban-card:hover {
@@ -467,6 +579,8 @@ body {
 .kanban-card.dragging {
     opacity: 0.6;
     border: 2px dashed var(--primary-blue);
+    transform: scale(1.02); /* Slight scale when dragging */
+    z-index: 10; /* Bring to front */
 }
 
 .kanban-card h4 {
@@ -490,7 +604,7 @@ body {
     font-size: 1.3rem;
     cursor: pointer;
     margin-top: 1rem;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
 }
 
 .kanban-card .view-details-btn:hover {
@@ -501,7 +615,7 @@ body {
 /* Students & Staff Cards */
 .student-grid, .staff-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 3rem;
     margin-bottom: 5rem;
 }
@@ -513,7 +627,7 @@ body {
     box-shadow: var(--card-shadow);
     text-align: center;
     border-bottom: 5px solid var(--accent-color);
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
 }
 
 .student-card:hover, .staff-card:hover {
@@ -541,7 +655,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.5rem;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-speed);
 }
 
 .student-card button:hover, .staff-card button:hover {
@@ -575,6 +689,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
+    box-shadow: var(--card-shadow);
 }
 
 .attendance-camera-placeholder p {
@@ -590,7 +705,7 @@ body {
     border-radius: 8px;
     font-size: 1.6rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color var(--transition-speed), transform 0.2s ease;
     font-weight: 600;
 }
 
@@ -612,6 +727,13 @@ body {
     font-size: 1.6rem;
     margin-bottom: 2rem;
     resize: vertical;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.learning-log-section textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 .learning-log-section button {
@@ -622,7 +744,7 @@ body {
     border-radius: 8px;
     font-size: 1.8rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color var(--transition-speed), transform 0.2s ease;
     font-weight: 600;
 }
 
@@ -634,7 +756,7 @@ body {
 /* Accounting */
 .accounting-metrics {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 3rem;
     margin-bottom: 5rem;
 }
@@ -667,7 +789,7 @@ body {
     border-radius: 8px;
     font-size: 1.6rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-speed);
 }
 
 .transactions-list button:hover {
@@ -707,13 +829,14 @@ body {
     font-size: 1.6rem;
     color: var(--dark-gray);
     background-color: var(--light-gray);
-    transition: border-color 0.3s ease;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.setting-group input:focus, .setting-group select:focus, .learning-log-section textarea:focus {
+.setting-group input:focus, .setting-group select:focus {
     outline: none;
     border-color: var(--primary-blue);
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 .setting-group button {
@@ -724,10 +847,185 @@ body {
     border-radius: 8px;
     font-size: 1.6rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color var(--transition-speed), transform 0.2s ease;
 }
 
 .setting-group button:hover {
     background-color: var(--dark-blue);
     transform: translateY(-2px);
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Small Tablets and Large Phones (e.g., width < 768px) */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* Stack sidebar and main content */
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        padding: 1.5rem 2rem;
+        transform: translateX(0); /* Ensure it's visible by default */
+    }
+
+    .sidebar.collapsed {
+        transform: translateX(-100%); /* Full collapse for mobile */
+        position: absolute; /* Take it out of flow when collapsed */
+        height: 100vh;
+        width: 250px; /* Make it a small overlay when toggled */
+    }
+
+    .sidebar .logo {
+        margin-bottom: 2rem;
+        justify-content: center;
+    }
+
+    .sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem; /* Spacing between nav items */
+    }
+
+    .sidebar nav a {
+        flex: 1 1 auto; /* Allow items to grow/shrink */
+        max-width: 150px; /* Limit individual item width */
+        justify-content: center;
+        text-align: center;
+        padding: 1rem 0.5rem;
+        font-size: 1.4rem;
+    }
+
+    .sidebar nav a .icon {
+        margin-right: 0; /* Remove margin on mobile icons */
+        margin-bottom: 0.5rem; /* Add space below icon */
+        display: block; /* Make icon take full width */
+    }
+    
+    .sidebar nav a span:last-child {
+        opacity: 1; /* Always show text on mobile nav */
+        width: auto;
+    }
+
+    .main-content {
+        padding: 2rem;
+        margin-left: 0;
+    }
+
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 3rem;
+    }
+
+    .main-header h1 {
+        font-size: 2.5rem;
+        text-align: left;
+        margin-bottom: 1.5rem;
+    }
+
+    .user-profile {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+        left: 1rem;
+        top: 1rem;
+    }
+
+    .content-section h2 {
+        font-size: 2.8rem;
+        margin-bottom: 3rem;
+    }
+
+    .dashboard-grid, .student-grid, .staff-grid, .accounting-metrics, .tech-grid {
+        grid-template-columns: 1fr; /* Single column layout */
+        gap: 2rem;
+    }
+
+    .kanban-board {
+        flex-wrap: nowrap; /* Keep horizontal scroll for Kanban */
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 1.5rem;
+    }
+
+    .kanban-column {
+        flex: 0 0 90%; /* Make columns wider for better mobile usability */
+        max-width: 350px;
+        scroll-snap-align: center; /* Snap to center of column */
+    }
+
+    .lead-capture-section input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .lead-capture-section .input-group {
+        flex-direction: column;
+    }
+}
+
+/* Smaller Phones (e.g., width < 480px) */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 1.5rem;
+    }
+
+    .main-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .user-name {
+        font-size: 1.6rem;
+        margin-right: 1rem;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 1.6rem;
+    }
+
+    .sidebar.collapsed {
+        width: 100%; /* Full screen overlay when collapsed on smallest screens */
+        padding: 1rem;
+    }
+
+    .sidebar nav a {
+        font-size: 1.3rem;
+        padding: 0.8rem 0.3rem;
+        max-width: 120px;
+    }
+
+    .sidebar nav a .icon {
+        font-size: 2rem;
+    }
+
+    .content-section h2 {
+        font-size: 2.5rem;
+    }
+
+    .metric-card, .student-card, .staff-card, .setting-group, .attendance-section, .staff-attendance-section, .learning-log-section, .payroll-settings-section {
+        padding: 2rem;
+    }
+
+    .kanban-column {
+        flex: 0 0 95%; /* Even wider for tiny screens */
+    }
+
+    .lead-capture-section input {
+        padding: 1rem;
+    }
+
+    .lead-capture-section button {
+        padding: 0.8rem 1.5rem;
+    }
 }

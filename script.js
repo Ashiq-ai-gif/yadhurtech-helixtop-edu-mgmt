@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('.nav-item');
     const contentSections = document.querySelectorAll('.content-section');
     const kanbanColumns = document.querySelectorAll('.kanban-column');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.querySelector('.main-content');
 
     // Sidebar Navigation
     navItems.forEach(item => {
@@ -17,8 +20,46 @@ document.addEventListener('DOMContentLoaded', () => {
                     section.classList.add('active');
                 }
             });
+
+            // Auto-hide sidebar on mobile after navigation
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.remove('pushed'); // Remove if content was pushed
+            }
         });
     });
+
+    // Mobile Menu Toggle
+    if (mobileMenuToggle && sidebar && mainContent) {
+        mobileMenuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            // Optional: push main content if sidebar is an overlay for larger mobile
+            // mainContent.classList.toggle('pushed');
+        });
+
+        // Close sidebar if clicking outside when it's open on mobile
+        mainContent.addEventListener('click', () => {
+            if (window.innerWidth <= 768 && !sidebar.classList.contains('collapsed')) {
+                sidebar.classList.add('collapsed');
+                // mainContent.classList.remove('pushed');
+            }
+        });
+
+        // Adjust sidebar on resize (e.g., if resized from mobile to desktop)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('collapsed');
+                // mainContent.classList.remove('pushed');
+            } else {
+                sidebar.classList.add('collapsed'); // Ensure collapsed on mobile resize
+            }
+        });
+
+        // Initial check on load
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('collapsed');
+        }
+    }
 
     // Kanban Drag and Drop (Visual Only)
     let draggedCard = null;
