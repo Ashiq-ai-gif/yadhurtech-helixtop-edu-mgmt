@@ -1,0 +1,733 @@
+:root {
+    --primary-blue: #007bff; /* Bright Blue */
+    --dark-blue: #0056b3;  /* Darker Blue */
+    --light-blue: #e6f2ff; /* Very Light Blue */
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --medium-gray: #ced4da;
+    --dark-gray: #343a40;
+    --success-green: #28a745;
+    --danger-red: #dc3545;
+    --warning-orange: #ffc107;
+
+    --font-family: 'Poppins', sans-serif;
+    --border-radius: 10px;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    --hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    color: var(--dark-gray);
+    background-color: var(--light-gray);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+    color: var(--white);
+    padding: 2.5rem 2rem;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    transition: width 0.3s ease; /* For potential collapse */
+}
+
+.sidebar .logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4rem;
+    padding-left: 1rem;
+}
+
+.sidebar .logo .icon {
+    font-size: 3rem;
+    margin-right: 1rem;
+}
+
+.sidebar .logo h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    color: var(--light-blue);
+    text-decoration: none;
+    font-size: 1.8rem;
+    padding: 1.2rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    transform: translateX(5px);
+}
+
+.sidebar nav a.active {
+    background-color: var(--white);
+    color: var(--dark-blue);
+    font-weight: 600;
+    box-shadow: var(--card-shadow);
+    transform: translateX(0);
+}
+
+.sidebar nav a .icon {
+    font-size: 2.2rem;
+    margin-right: 1.5rem;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 3rem;
+    background-color: var(--white);
+    position: relative;
+    z-index: 1;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.main-header h1 {
+    font-family: var(--font-family);
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.user-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-right: 1.5rem;
+    color: var(--primary-blue);
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* Content Sections */
+.content-section {
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.content-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.content-section h2 {
+    font-family: var(--font-family);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 3.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.content-section h2::after {
+    content: '';
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-blue);
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-bottom: 5rem;
+}
+
+.metric-card {
+    background-color: var(--white);
+    padding: 3rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    border-bottom: 5px solid var(--primary-blue);
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: var(--hover-shadow);
+    transform: translateY(-5px);
+}
+
+.metric-card h3 {
+    font-size: 1.8rem;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.metric-card .metric-value {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.metric-card .metric-growth {
+    font-size: 1.4rem;
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+.chart-placeholder {
+    background-color: var(--light-gray);
+    border: 1px dashed var(--medium-gray);
+    border-radius: var(--border-radius);
+    padding: 5rem 3rem;
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--dark-gray);
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-placeholder h3 {
+    font-size: 2.5rem;
+    color: var(--dark-blue);
+    margin-bottom: 1.5rem;
+}
+
+/* Marketing Calendar */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.calendar-header h3 {
+    font-size: 2.5rem;
+    color: var(--dark-blue);
+    margin: 0;
+}
+
+.calendar-header button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.6rem;
+    transition: background-color 0.3s ease;
+}
+
+.calendar-header button:hover {
+    background-color: var(--dark-blue);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.day-label {
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 1rem;
+    color: var(--primary-blue);
+    font-size: 1.4rem;
+}
+
+.calendar-day {
+    min-height: 100px;
+    border: 1px solid var(--light-gray);
+    border-radius: 5px;
+    padding: 0.8rem;
+    font-size: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    background-color: var(--light-gray);
+}
+
+.calendar-day.inactive {
+    background-color: #f0f2f5;
+    color: var(--medium-gray);
+}
+
+.event {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    color: var(--white);
+    margin-top: 0.3rem;
+}
+
+.event.marketing {
+    background-color: #6c757d; /* Gray */
+}
+
+.event.webinar {
+    background-color: #17a2b8; /* Cyan */
+}
+
+.event.campaign {
+    background-color: var(--success-green); /* Green */
+}
+
+.event.ad {
+    background-color: var(--warning-orange); /* Orange */
+}
+
+.new-event-btn {
+    margin-top: 3rem;
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--accent-color);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.new-event-btn:hover {
+    background-color: #e0a800;
+}
+
+/* Leads Kanban View */
+.lead-capture-section {
+    background-color: var(--light-blue);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 4rem;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+}
+
+.lead-capture-section h3 {
+    font-size: 2.2rem;
+    color: var(--dark-blue);
+    margin-bottom: 1.5rem;
+}
+
+.lead-capture-section p {
+    font-size: 1.6rem;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.lead-capture-section input {
+    width: 80%;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 5px;
+    font-size: 1.6rem;
+    margin-right: 1rem;
+}
+
+.lead-capture-section button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.6rem;
+    transition: background-color 0.3s ease;
+}
+
+.lead-capture-section button:hover {
+    background-color: var(--dark-blue);
+}
+
+.kanban-board {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto; /* Allow horizontal scrolling for many columns */
+    padding-bottom: 1rem; /* Space for scrollbar */
+}
+
+.kanban-column {
+    flex: 0 0 300px; /* Fixed width columns, but can adjust */
+    background-color: var(--light-gray);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    min-height: 400px; /* Ensure columns have some height */
+    display: flex;
+    flex-direction: column;
+}
+
+.kanban-column h3 {
+    font-size: 2.2rem;
+    color: var(--dark-blue);
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.kanban-column h3::after {
+    content: '';
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary-blue);
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.kanban-card {
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    cursor: grab; /* Indicates draggable */
+    transition: all 0.2s ease;
+    border-left: 5px solid var(--primary-blue);
+}
+
+.kanban-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.kanban-card.dragging {
+    opacity: 0.6;
+    border: 2px dashed var(--primary-blue);
+}
+
+.kanban-card h4 {
+    font-size: 1.8rem;
+    color: var(--dark-blue);
+    margin-bottom: 0.8rem;
+}
+
+.kanban-card p {
+    font-size: 1.4rem;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.kanban-card .view-details-btn {
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.kanban-card .view-details-btn:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+/* Students & Staff Cards */
+.student-grid, .staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-bottom: 5rem;
+}
+
+.student-card, .staff-card {
+    background-color: var(--white);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    border-bottom: 5px solid var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.student-card:hover, .staff-card:hover {
+    box-shadow: var(--hover-shadow);
+    transform: translateY(-5px);
+}
+
+.student-card h3, .staff-card h3 {
+    font-size: 2.2rem;
+    color: var(--dark-blue);
+    margin-bottom: 1rem;
+}
+
+.student-card p, .staff-card p {
+    font-size: 1.6rem;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.student-card button, .staff-card button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.student-card button:hover, .staff-card button:hover {
+    background-color: var(--dark-blue);
+}
+
+/* Attendance Section */
+.attendance-section, .staff-attendance-section, .learning-log-section, .payroll-settings-section {
+    background-color: var(--light-blue);
+    padding: 3rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 4rem;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+}
+
+.attendance-section h3, .staff-attendance-section h3, .learning-log-section h3, .payroll-settings-section h3 {
+    font-size: 2.2rem;
+    color: var(--dark-blue);
+    margin-bottom: 2rem;
+}
+
+.attendance-camera-placeholder {
+    background-color: var(--white);
+    border: 2px dashed var(--primary-blue);
+    border-radius: var(--border-radius);
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.attendance-camera-placeholder p {
+    font-size: 1.6rem;
+    color: var(--medium-gray);
+}
+
+.attendance-camera-placeholder button {
+    background-color: var(--accent-color);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+}
+
+.attendance-camera-placeholder button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.last-marked {
+    font-size: 1.4rem;
+    color: var(--dark-gray);
+}
+
+.learning-log-section textarea {
+    width: 90%;
+    padding: 1.5rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    resize: vertical;
+}
+
+.learning-log-section button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 1.2rem 2.5rem;
+    border-radius: 8px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+}
+
+.learning-log-section button:hover {
+    background-color: var(--dark-blue);
+    transform: translateY(-2px);
+}
+
+/* Accounting */
+.accounting-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-bottom: 5rem;
+}
+
+.transactions-list ul {
+    list-style: none;
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.transactions-list li {
+    font-size: 1.6rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--light-gray);
+    color: var(--dark-gray);
+}
+
+.transactions-list li:last-child {
+    border-bottom: none;
+}
+
+.transactions-list button {
+    margin-top: 3rem;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.transactions-list button:hover {
+    background-color: var(--dark-blue);
+}
+
+/* Settings */
+.setting-group {
+    background-color: var(--white);
+    padding: 3rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 3rem;
+    border-left: 5px solid var(--primary-blue);
+}
+
+.setting-group h3 {
+    font-size: 2.2rem;
+    color: var(--dark-blue);
+    margin-bottom: 2rem;
+}
+
+.setting-group label {
+    display: block;
+    font-size: 1.6rem;
+    color: var(--dark-gray);
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.setting-group input[type="text"], .setting-group input[type="number"], .setting-group select {
+    width: calc(100% - 2rem); /* Account for padding */
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 5px;
+    font-size: 1.6rem;
+    color: var(--dark-gray);
+    background-color: var(--light-gray);
+    transition: border-color 0.3s ease;
+}
+
+.setting-group input:focus, .setting-group select:focus, .learning-log-section textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.setting-group button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.setting-group button:hover {
+    background-color: var(--dark-blue);
+    transform: translateY(-2px);
+}

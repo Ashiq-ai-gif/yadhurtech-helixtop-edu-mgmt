@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helixtop Institute Management - UI Prototype</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="icon"></span>
+            <h2>Helixtop</h2>
+        </div>
+        <nav>
+            <a href="#dashboard" class="nav-item active" data-target="dashboard">
+                <span class="icon">🏠</span>
+                Dashboard
+            </a>
+            <a href="#marketing" class="nav-item" data-target="marketing">
+                <span class="icon">📊</span>
+                Marketing
+            </a>
+            <a href="#leads" class="nav-item" data-target="leads">
+                <span class="icon">💡</span>
+                Leads
+            </a>
+            <a href="#students" class="nav-item" data-target="students">
+                <span class="icon">🧑‍🎓</span>
+                Students
+            </a>
+            <a href="#staff" class="nav-item" data-target="staff">
+                <span class="icon">👨‍🏫</span>
+                Staff
+            </a>
+            <a href="#accounting" class="nav-item" data-target="accounting">
+                <span class="icon">💰</span>
+                Accounting
+            </a>
+            <a href="#settings" class="nav-item" data-target="settings">
+                <span class="icon">⚙️</span>
+                Settings
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Welcome to Helixtop Institute Management</h1>
+            <div class="user-profile">
+                <span class="user-name">Admin Ashiq</span>
+                <div class="user-avatar">AA</div>
+            </div>
+        </header>
+
+        <section id="dashboard" class="content-section active">
+            <h2>Dashboard Overview</h2>
+            <div class="dashboard-grid">
+                <div class="metric-card">
+                    <h3>Total Students</h3>
+                    <p class="metric-value">2500</p>
+                    <p class="metric-growth">+12% vs last month</p>
+                </div>
+                <div class="metric-card">
+                    <h3>New Leads This Month</h3>
+                    <p class="metric-value">150</p>
+                    <p class="metric-growth">+25% vs last month</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Revenue This Month</h3>
+                    <p class="metric-value">₹5,00,000</p>
+                    <p class="metric-growth">+18% vs last month</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Active Courses</h3>
+                    <p class="metric-value">45</p>
+                    <p class="metric-growth">+5 new</p>
+                </div>
+            </div>
+            <div class="chart-placeholder">
+                <h3>Enrollment Trends (Placeholder Chart)</h3>
+                <p><em>Interactive chart showing student enrollment over time would appear here.</em></p>
+            </div>
+        </section>
+
+        <section id="marketing" class="content-section">
+            <h2>Marketing Calendar</h2>
+            <div class="calendar-header">
+                <button>&lt; Prev Month</button>
+                <h3>February 2026</h3>
+                <button>Next Month &gt;</button>
+            </div>
+            <div class="calendar-grid">
+                <!-- Days of the week -->
+                <div class="day-label">Mon</div><div class="day-label">Tue</div><div class="day-label">Wed</div><div class="day-label">Thu</div><div class="day-label">Fri</div><div class="day-label">Sat</div><div class="day-label">Sun</div>
+                <!-- Calendar days with content placeholders -->
+                <div class="calendar-day inactive">29</div><div class="calendar-day inactive">30</div><div class="calendar-day inactive">31</div>
+                <div class="calendar-day">
+                    1
+                    <div class="event marketing">Social Media Post A</div>
+                </div>
+                <div class="calendar-day">2</div><div class="calendar-day">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div>
+                <div class="calendar-day">
+                    9
+                    <div class="event webinar">Webinar Registration Open</div>
+                </div>
+                <div class="calendar-day">10</div><div class="calendar-day">11</div><div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div>
+                <div class="calendar-day">
+                    16
+                    <div class="event campaign">Email Campaign Launch</div>
+                </div>
+                <div class="calendar-day">17</div><div class="calendar-day">18</div><div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div>
+                <div class="calendar-day">
+                    23
+                    <div class="event ad">Google Ads Check</div>
+                </div>
+                <div class="calendar-day">24</div><div class="calendar-day">25</div><div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div>
+                <div class="calendar-day inactive">1</div><div class="calendar-day inactive">2</div>
+            </div>
+            <button class="new-event-btn">+ Schedule New Content</button>
+        </section>
+
+        <section id="leads" class="content-section">
+            <h2>Leads Management (Kanban View)</h2>
+            <div class="lead-capture-section">
+                <h3>Generate New Lead Link</h3>
+                <p>Settings > Institute Details will generate a unique student enrollment link.</p>
+                <input type="text" value="https://helixtop.com/enroll/yourinstituteid" readonly />
+                <button>Copy Link</button>
+            </div>
+            <div class="kanban-board">
+                <div class="kanban-column" id="new-leads">
+                    <h3>New Leads</h3>
+                    <div class="kanban-card draggable" data-status="new-leads">
+                        <h4>Student A</h4>
+                        <p>Email: studentA@example.com</p>
+                        <p>Phone: +91 9876543210</p>
+                        <p><em>(Clicked enrollment link)</em></p>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                    <div class="kanban-card draggable" data-status="new-leads">
+                        <h4>Student B</h4>
+                        <p>Email: studentB@example.com</p>
+                        <p>Phone: +91 9988776655</p>
+                        <p><em>(Clicked enrollment link)</em></p>
+                    </div>
+                </div>
+                <div class="kanban-column" id="contacted">
+                    <h3>Contacted</h3>
+                    <div class="kanban-card draggable" data-status="contacted">
+                        <h4>Student C</h4>
+                        <p>Counselor: Ms. Priya</p>
+                        <p>Course Interest: Web Dev</p>
+                        <p><em>(Initial contact made)</em></p>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="kanban-column" id="interested">
+                    <h3>Interested</h3>
+                </div>
+                <div class="kanban-column" id="counselling">
+                    <h3>Counselling</h3>
+                    <div class="kanban-card draggable" data-status="counselling">
+                        <h4>Student D</h4>
+                        <p>Course: Data Science</p>
+                        <p>Cost: ₹50,000</p>
+                        <p><em>(Currently in discussion)</em></p>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="kanban-column" id="closed-won">
+                    <h3>Closed (Won)</h3>
+                </div>
+                <div class="kanban-column" id="closed-lost">
+                    <h3>Closed (Lost)</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="students" class="content-section">
+            <h2>Student Management</h2>
+            <div class="student-grid">
+                <div class="student-card">
+                    <h3>Mohammed Ashiq</h3>
+                    <p>Course: Full Stack Development</p>
+                    <p>ID: S001</p>
+                    <button class="view-attendance-btn">View Attendance</button>
+                </div>
+                <div class="student-card">
+                    <h3>Jane Doe</h3>
+                    <p>Course: Data Science</p>
+                    <p>ID: S002</p>
+                    <button class="view-attendance-btn">View Attendance</button>
+                </div>
+            </div>
+            <div class="attendance-section">
+                <h3>Daily Attendance</h3>
+                <div class="attendance-camera-placeholder">
+                    <p><em>Student Photo for Attendance</em></p>
+                    <input type="file" accept="image/*" capture="environment" id="student-photo-upload" style="display: none;">
+                    <button onclick="document.getElementById('student-photo-upload').click()">📸 Upload Photo & Mark Attendance</button>
+                </div>
+                <p class="last-marked">Last marked: Today, 10:20 AM</p>
+            </div>
+            <div class="learning-log-section">
+                <h3>Today's Learning Log</h3>
+                <textarea placeholder="What did you learn today?" rows="5"></textarea>
+                <button>Submit Learning Log</button>
+            </div>
+        </section>
+
+        <section id="staff" class="content-section">
+            <h2>Staff Management</h2>
+            <div class="staff-grid">
+                <div class="staff-card">
+                    <h3>Ms. Priya Sharma</h3>
+                    <p>Role: Student Counselor</p>
+                    <p>ID: T001</p>
+                    <button class="view-payroll-btn">View Payroll</button>
+                </div>
+                <div class="staff-card">
+                    <h3>Mr. Rahul Singh</h3>
+                    <p>Role: Lead Instructor</p>
+                    <p>ID: T002</p>
+                    <button class="view-payroll-btn">View Payroll</button>
+                </div>
+            </div>
+            <div class="staff-attendance-section">
+                <h3>Daily Staff Attendance</h3>
+                <div class="attendance-camera-placeholder">
+                    <p><em>Staff Photo for Attendance</em></p>
+                    <input type="file" accept="image/*" capture="environment" id="staff-photo-upload" style="display: none;">
+                    <button onclick="document.getElementById('staff-photo-upload').click()">📸 Upload Photo & Mark Attendance</button>
+                </div>
+                <p class="last-marked">Last marked: Today, 10:25 AM</p>
+            </div>
+            <div class="payroll-settings-section">
+                <h3>Payroll Settings (Daily Wage)</h3>
+                <p>Settings > Staff Details allows entering daily wage rates.</p>
+                <button>Calculate Payroll for Month</button>
+            </div>
+        </section>
+
+        <section id="accounting" class="content-section">
+            <h2>Automated Accounting</h2>
+            <div class="accounting-metrics">
+                <div class="metric-card">
+                    <h3>Total Revenue</h3>
+                    <p class="metric-value">₹1,20,00,000</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Outstanding Fees</h3>
+                    <p class="metric-value">₹15,00,000</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Payroll Due</h3>
+                    <p class="metric-value">₹2,50,000</p>
+                </div>
+            </div>
+            <div class="transactions-list">
+                <h3>Recent Transactions (Placeholder)</h3>
+                <ul>
+                    <li>Student D - Data Science Course (₹50,000 paid)</li>
+                    <li>Staff - Ms. Priya - Payroll (₹25,000 paid)</li>
+                    <li>Expense - Marketing Campaign (₹10,000)</li>
+                </ul>
+                <button>View Full Ledger</button>
+            </div>
+        </section>
+
+        <section id="settings" class="content-section">
+            <h2>Settings & Configuration</h2>
+            <div class="setting-group">
+                <h3>Institute Details</h3>
+                <label for="institute-name">Institute Name</label>
+                <input type="text" id="institute-name" value="Helixtop Institute">
+                <label for="enrollment-link">Student Enrollment Link</label>
+                <input type="text" id="enrollment-link" value="https://helixtop.com/enroll/instituteid" readonly>
+                <button class="generate-link-btn">Generate/Update Link</button>
+            </div>
+            <div class="setting-group">
+                <h3>Staff Payroll Settings</h3>
+                <label for="daily-wage">Default Daily Wage (₹)</label>
+                <input type="number" id="daily-wage" value="1000">
+                <button>Save Payroll Settings</button>
+            </div>
+            <div class="setting-group">
+                <h3>Multi-Language Support</h3>
+                <label for="language-select">Select Language</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="ta">Tamil</option>
+                </select>
+                <button>Save Language</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
